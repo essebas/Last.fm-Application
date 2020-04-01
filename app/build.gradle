@@ -1,0 +1,88 @@
+apply plugin: 'com.android.application'
+
+def LASTFM_API_KEY = '"' + LastFM_API_Key + '"'?: '"Error al obtener el API KEY"'
+def STRING = 'String'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "co.sebasdeveloper.pruebavalid"
+        minSdkVersion 22
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        each {
+            type -> type.buildConfigField STRING, 'LastFM_API_Key', LASTFM_API_KEY
+        }
+        manifestPlaceholders = [
+            LASTFM_API_KEY : LASTFM_API_KEY
+        ]
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    //Dagger
+    def dagger_version = "2.26"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+
+    //Lifecycle - View Model and Live Data
+    def lifecycle_version = "2.0.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+
+    //Retrofit
+    def retrofit_version = "2.8.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+
+    //OkHttp
+    def okHttp_version = "4.4.0"
+    implementation("com.squareup.okhttp3:logging-interceptor:$okHttp_version")
+
+    //View Components
+    def viewCom_version = "28.0.0"
+    implementation "com.android.support:recyclerview-v7:$viewCom_version"
+    implementation "com.android.support:cardview-v7:$viewCom_version"
+    def materialize_version = "1.2.0-alpha05"
+    implementation "com.google.android.material:material:$materialize_version"
+    def dialogs_version = "3.3.0"
+    implementation "com.afollestad.material-dialogs:core:$dialogs_version"
+
+    //Picasso library
+    def picasso_version = "2.71828"
+    implementation "com.squareup.picasso:picasso:$picasso_version"
+
+    //Rxjava
+    def rxJava_version = "2.2.19"
+    def rxAndroid_version = "2.1.1"
+    implementation "io.reactivex.rxjava2:rxjava:$rxJava_version"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid_version"
+
+    def countrypicker_version = "2.0.2"
+    implementation "com.github.mukeshsolanki:country-picker-android:$countrypicker_version"
+
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+}
