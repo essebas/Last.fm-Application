@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,10 @@ import co.sebasdeveloper.pruebavalid.viewmodel.ArtistViewModel;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopArtistFragment extends Fragment implements ConfigDialog.CustomDialogListener {
+public class TopArtistFragment extends Fragment implements ITopFragments{
 
+
+    private static final String TAG = "TopArtistFragment";
     private View view;
     private RecyclerView recyclerView;
     private CustomAdapter customAdapter;
@@ -32,15 +35,16 @@ public class TopArtistFragment extends Fragment implements ConfigDialog.CustomDi
     private Country selectedCountry;
     private String selectedItems;
 
-    public TopArtistFragment(ArtistViewModel artistViewModel, Country country) {
+    public TopArtistFragment(ArtistViewModel artistViewModel, Country country, String items) {
         this.artistViewModel = artistViewModel;
         this.selectedCountry = country;
-        this.selectedItems = "50";
+        this.selectedItems = items;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "Ha entrado en onCreateView: Pais: " + this.selectedCountry.getName()+ "/ Items: " + selectedItems);
         view = inflater.inflate(R.layout.fragment_top_artist, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_topartist);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -53,12 +57,24 @@ public class TopArtistFragment extends Fragment implements ConfigDialog.CustomDi
                 customAdapter.setArtists(topArtistResponseModel.getTopartists().getArtist());
             }
         });
+
         return view;
     }
 
     @Override
-    public void applyText(Country country, String items) {
-        this.selectedCountry = country;
-        this.selectedItems = items;
+    public void updateLiveData(Country country, String items) {
+        if(this.selectedCountry != country || this.selectedItems != items){
+            Log.d(TAG,"Se van aactualizar los datos");
+            this.selectedCountry = country;
+            this.selectedItems = items;
+            artistViewModel.loadData(country, items);
+        }
+        Log.d(TAG,"No se actualizaron los datos porwue no habia cambios");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "Ha entrado en onResume: Pais: " + this.selectedCountry.getName() + "/ Items: " + selectedItems);
     }
 }

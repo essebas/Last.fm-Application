@@ -16,4 +16,8 @@ public abstract class ContextModule {
 
     @Binds
     abstract Context bindContext(Application application);
+
+    public Context getContext() {
+        return context;
+    }
 }

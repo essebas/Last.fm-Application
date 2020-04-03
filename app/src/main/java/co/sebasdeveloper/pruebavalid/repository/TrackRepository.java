@@ -1,5 +1,7 @@
 package co.sebasdeveloper.pruebavalid.repository;
 
+import com.mukesh.countrypicker.Country;
+
 import javax.inject.Inject;
 
 import co.sebasdeveloper.pruebavalid.BuildConfig;
@@ -16,7 +18,7 @@ public class TrackRepository {
         this.trackService = trackService;
     }
 
-    public Single<TopTrackResponseModel> modelSingleTopTrack(){
-        return trackService.getTopTrackResponseModel("geo.gettoptracks","spain", BuildConfig.LastFM_API_Key,"json");
+    public Single<TopTrackResponseModel> modelSingleTopTrack(Country country, String items){
+        return trackService.getTopTrackResponseModel("geo.gettoptracks",country.getName(), BuildConfig.LastFM_API_Key,"json", items);
     }
 }

@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -44,12 +46,16 @@ public class ConfigDialog extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimationScale;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.filterlayout, null);
         editText = (EditText) view.findViewById(R.id.input_country);
         items_textview = (TextInputLayout) view.findViewById(R.id.inputlayout_items);
         items_edittext = (TextInputEditText) view.findViewById(R.id.input_items);
+
+        items_edittext.setText(getArguments().getString("items"));
 
         items_edittext.addTextChangedListener(new TextWatcher() {
             @Override
@@ -93,10 +99,12 @@ public class ConfigDialog extends AppCompatDialogFragment {
                     }
                 }).build();
 
+        countrySelected = builderPicker.getCountryByName(getArguments().getString("country"));
+        editText.setText(countrySelected.getName());
         editText.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                builderPicker.showBottomSheet((AppCompatActivity) getActivity());
+                        builderPicker.showBottomSheet((AppCompatActivity) getActivity());
             }
         });
         builder.setView(view)

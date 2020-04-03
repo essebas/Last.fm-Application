@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp">
@@ -28,10 +28,12 @@
                 android:id="@+id/input_country"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/input_country"
+                android:hint="@string/default_country"
                 android:focusable="false"
                 android:textSize="21sp"
-                android:textColor="@color/colorPrimaryText">
+                android:textColor="@color/colorPrimaryText"
+                android:autofillHints="Seleccionar pais"
+                android:inputType="none">
             </EditText>
         </LinearLayout>
         <LinearLayout
@@ -62,7 +64,7 @@
                     android:id="@+id/input_items"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/input_items"
+                    android:text="@string/default_items"
                     android:digits="0123456789"
                     android:inputType="number"
                     android:textSize="21sp"

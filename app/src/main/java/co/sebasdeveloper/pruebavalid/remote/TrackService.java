@@ -12,6 +12,7 @@ public interface TrackService {
             @Query("method") String method,
             @Query("country") String country,
             @Query("api_key") String api_key,
-            @Query("format") String format
+            @Query("format") String format,
+            @Query("limit") String limit
     );
 }

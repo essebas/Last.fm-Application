@@ -30,7 +30,7 @@ public class ArtistViewModel extends ViewModel {
     private ArtistRepository artistRepository;
     private CompositeDisposable disposable=new CompositeDisposable();
     //private MutableLiveData<ArtistResponseModel> modelMutableLiveData = new MutableLiveData<>();
-    private MutableLiveData<TopArtistResponseModel> modelMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<TopArtistResponseModel> modelMutableLiveData;
     private static final String TAG = "ArtistViewModel";
 
     @Inject
@@ -39,11 +39,14 @@ public class ArtistViewModel extends ViewModel {
     }
 
     public MutableLiveData<TopArtistResponseModel> getModelMutableLiveData(Country country, String items) {
-        loadData(country, items);
+        if(modelMutableLiveData == null){
+            modelMutableLiveData = new MutableLiveData<>();
+            loadData(country, items);
+        }
         return modelMutableLiveData;
     }
 
-    private void loadData(Country country, String items){
+    public void loadData(Country country, String items){
         disposable.add(artistRepository.modelSingleTopArtist(country, items)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -51,16 +54,11 @@ public class ArtistViewModel extends ViewModel {
                     @Override
                     public void onSuccess(TopArtistResponseModel topArtistResponseModel) {
                         getModelMutableLiveData(country, items).setValue(topArtistResponseModel);
-                        //Test
-                        ImageModel[] imageModel = topArtistResponseModel.getTopartists().getArtist().get(0).getImage();
-                        Log.d("Artist", String.valueOf(topArtistResponseModel.getTopartists().getArtist().size()));
-                        Log.d("Artist", "Url image for artist 1: url:" + imageModel[0].getText() + " size:" + imageModel[0].getSize());
-                        Log.d("Artist", "Url image for artist 1: url:" + imageModel[2].getText() + " size:" + imageModel[2].getSize());
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("Artist", "Error caused by: " + e.getMessage());
+                        Log.d(TAG, "Error caused by: " + e.getMessage());
                     }
                 })
         );

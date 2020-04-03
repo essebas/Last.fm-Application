@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -51,6 +52,7 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackView>{
     @Override
     public void onBindViewHolder(@NonNull TrackView holder, int position) {
         TrackModel trackModel = arrayList.get(position);
+        holder.txv_rank.setText(String.valueOf(position+1));
         holder.materialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +77,7 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackView>{
 
         private TrackBinding trackBinding;
         private MaterialButton materialButton;
+        private TextView txv_rank;
 
         public TrackView(TrackBinding trackBinding) {
             super(trackBinding.getRoot());
@@ -93,6 +96,7 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackView>{
 
         private void iniatializeComponents(){
             this.materialButton = trackBinding.getRoot().findViewById(R.id.btn_website);
+            this.txv_rank = trackBinding.getRoot().findViewById(R.id.txv_rank);
         }
     }
 

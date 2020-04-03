@@ -1,7 +1,11 @@
 package co.sebasdeveloper.pruebavalid.di.modules;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -30,13 +34,18 @@ public abstract class NetworkModule {
         OkHttpClient.Builder okHttp = new OkHttpClient.Builder();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(Level.BODY);
-        okHttp.addInterceptor(logging);
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        //httpClient.addInterceptor(new NetworkInterceptor());
+        httpClient.addInterceptor(logging);
+        httpClient.connectTimeout(30, TimeUnit.SECONDS);
+        httpClient.readTimeout(30, TimeUnit.SECONDS);
 
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(okHttp.build())
+                .client(httpClient.build())
                 .build();
     }
 

@@ -60,9 +60,7 @@ public class AttrModel {
     }
 
     public String getRank() {
-        int temp = Integer.valueOf(this.rank);
-        temp = temp + 1;
-        this.rank = String.valueOf(temp);
+        this.rank = String.valueOf(Integer.valueOf(this.rank) + 1);
         return rank;
     }
 

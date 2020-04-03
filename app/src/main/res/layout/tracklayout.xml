@@ -33,11 +33,12 @@
                 android:layout_marginBottom="16dp">
 
                 <TextView
+                    android:id="@+id/txv_rank"
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/rubik"
                     android:gravity="center"
-                    android:text="@{track.attrModel.rank}"
+                    android:text="0"
                     android:textSize="60sp"
                     android:typeface="normal" />
 

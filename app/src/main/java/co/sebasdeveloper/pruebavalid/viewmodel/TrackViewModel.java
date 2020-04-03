@@ -3,6 +3,7 @@ package co.sebasdeveloper.pruebavalid.viewmodel;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.mukesh.countrypicker.Country;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -22,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 public class TrackViewModel extends ViewModel {
     private TrackRepository trackRepository;
     private CompositeDisposable disposable = new CompositeDisposable();
-    private MutableLiveData<TopTrackResponseModel> modelMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<TopTrackResponseModel> modelMutableLiveData;
     private static final String TAG = "TrackViewModel";
 
     @Inject
@@ -30,19 +31,22 @@ public class TrackViewModel extends ViewModel {
         this.trackRepository = trackRepository;
     }
 
-    public MutableLiveData<TopTrackResponseModel> getModelMutableData(){
-        loadData();
+    public MutableLiveData<TopTrackResponseModel> getModelMutableData(Country country, String items){
+        if(modelMutableLiveData == null){
+            modelMutableLiveData = new MutableLiveData<>();
+            loadData(country, items);
+        }
         return modelMutableLiveData;
     }
 
-    private void loadData(){
-        disposable.add(trackRepository.modelSingleTopTrack()
+    public void loadData(Country country, String items){
+        disposable.add(trackRepository.modelSingleTopTrack(country, items)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeWith(new DisposableSingleObserver<TopTrackResponseModel>(){
             @Override
             public void onSuccess(TopTrackResponseModel topTrackResponseModel) {
-                getModelMutableData().setValue(topTrackResponseModel);
+                getModelMutableData(country, items).setValue(topTrackResponseModel);
             }
 
             @Override

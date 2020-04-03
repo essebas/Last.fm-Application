@@ -5,8 +5,10 @@
     <string name="dialog_title">Filtro de búsqueda</string>
     <string name="btn_negative">Cancelar</string>
     <string name="btn_confirm">Aplicar</string>
-    <string name="input_country">Spain</string>
-    <string name="input_items">50</string>
+    <string name="default_country">Colombia</string>
+    <string name="default_items">50</string>
     <string name="txv_country">Pais</string>
     <string name="txv_items">Top</string>
+    <string name="tab_topartist">Top Artistas</string>
+    <string name="tab_toptracks">Top Canciones</string>
 </resources>
