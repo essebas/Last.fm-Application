@@ -2,6 +2,8 @@
 
 ***v.0.1-pre-alpha***
 
+![enter image description here](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/ArwuitecuraV1.png)
+
 La siguiente aplicación consta de una **arquitectura MVVM** y principios arquitectónicos **orientados a componentes**.
 Actualmente la versión cuenta con varias inestabilidades ya que no se tuvo presente el manejo de errores en respuesta de los datos consumidos, estos serán explicados mas adelante.
 
@@ -22,142 +24,91 @@ Actualmente la versión cuenta con varias inestabilidades ya que no se tuvo pres
 
 ## Recorrido por la Aplicacion
 
-### Home - Inicio
+### Home - Inicio (Fragment Top Artistas)
 Al ejecutar la aplicación se cargara por defecto los datos de Colombia, mostrando un top 50 de artistas. Por el momento y cuestiones practicas los datos por defecto son tomados de Strings.xml, sin embargo se puede usar el servicio de geolocalización para que dependiendo de donde se este ejecutando la aplicación se pase el dato del respectivo país.
 
-![enter image description here](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/home.PNG)
+![Inicio de la aplicacion](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/home.PNG)
 
-## Create files and folders
+#### Collapsing Toolbar Layout on Scroll Down
+El objetivo es que se le informe al usuario que datos son los que se le están mostrando, respecto al país e items mostrados. Se incorporo este diseño según la librería y las guías de diseño de material design, obteniendo como resultado un titulo que interactúa con el RecyclerView.
 
-The file explorer is accessible using the button in left corner of the navigation bar. You can create a new file by clicking the **New file** button in the file explorer. You can also create folders by clicking the **New folder** button.
+![Inicio de la aplicacion - scroll down](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/home-scroll.PNG)
 
-## Switch to another file
+#### Final del RecyclerView
+Como se evidencia, se muestran 50 items, que corresponden a la configuración inicial.
 
-All your files and folders are presented as a tree in the file explorer. You can switch from one to another by clicking a file in the tree.
+- País : Colombia
+- Top : 50
 
-## Rename a file
-
-You can rename the current file by clicking the file name in the navigation bar or by clicking the **Rename** button in the file explorer.
-
-## Delete a file
-
-You can delete the current file by clicking the **Remove** button in the file explorer. The file will be moved into the **Trash** folder and automatically deleted after 7 days of inactivity.
-
-## Export a file
-
-You can export the current file by clicking **Export to disk** in the menu. You can choose to export the file as plain Markdown, as HTML using a Handlebars template or as a PDF.
+![enter image description here](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/home-bottom.PNG)
 
 
-# Synchronization
+#### CardView Actions
+Cada CardView es construido por un adaptador que luego es pasado al RecyclerView, esto permite que cada ítem tenga sus respectivos datos. En este caso se agrego un intent implícito para que se pudiera evidenciar la información respectiva, para este caso la web donde se puede encontrar mas información del artista. 
 
-Synchronization is one of the biggest features of StackEdit. It enables you to synchronize any file in your workspace with other files stored in your **Google Drive**, your **Dropbox** and your **GitHub** accounts. This allows you to keep writing on other devices, collaborate with people you share the file with, integrate easily into your workflow... The synchronization mechanism takes place every minute in the background, downloading, merging, and uploading file modifications.
+![item press bottom](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/home-pressbottom-information.png)
 
-There are two types of synchronization and they can complement each other:
+![inten implicit - information in web browser](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/home-clickbottom-information.PNG)
 
-- The workspace synchronization will sync all your files, folders and settings automatically. This will allow you to fetch your workspace on any other device.
-	> To start syncing your workspace, just sign in with Google in the menu.
+### Settings Dialog
+Se incorporo un filtro de búsqueda para que se permitiera al usuario variar parámetros por un país o numero de top diferente. **La búsqueda es global, afectara tanto a TOP ARTISTAS como a TOP CANCIONES** pero solamente actualiza los datos del fragment que en ese momento se encuentra activo. Cuando el usuario cambie de fragment, se lanza un evento que primero verifica si los parámetros de búsqueda han cambiado, esto para evitar consumo de red innecesarios y búsquedas redundantes. 
+El dialogo mostrara siempre los parámetros actuales de búsqueda, como no se han cambiado con anterioridad, este toma los parámetros por defecto al lanzar la aplicación.
 
-- The file synchronization will keep one file of the workspace synced with one or multiple files in **Google Drive**, **Dropbox** or **GitHub**.
-	> Before starting to sync files, you must link an account in the **Synchronize** sub-menu.
-
-## Open a file
-
-You can open a file from **Google Drive**, **Dropbox** or **GitHub** by opening the **Synchronize** sub-menu and clicking **Open from**. Once opened in the workspace, any modification in the file will be automatically synced.
-
-## Save a file
-
-You can save any file of the workspace to **Google Drive**, **Dropbox** or **GitHub** by opening the **Synchronize** sub-menu and clicking **Save on**. Even if a file in the workspace is already synced, you can save it to another location. StackEdit can sync one file with multiple locations and accounts.
-
-## Synchronize a file
-
-Once your file is linked to a synchronized location, StackEdit will periodically synchronize it by downloading/uploading any modification. A merge will be performed if necessary and conflicts will be resolved.
-
-If you just have modified your file and you want to force syncing, click the **Synchronize now** button in the navigation bar.
-
-> **Note:** The **Synchronize now** button is disabled if you have no file to synchronize.
-
-## Manage file synchronization
-
-Since one file can be synced with multiple locations, you can list and manage synchronized locations by clicking **File synchronization** in the **Synchronize** sub-menu. This allows you to list and remove synchronized locations that are linked to your file.
+![Settings Dialog](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/settingsdialog.PNG)
 
 
-# Publication
+#### Country Picker
+En el input para seleccionar un país, se lanza un bottom frame que contiene todos los países con sus respectivas banderas. Esta funcionalidad es tomada de una librería llamada [Country Picker](https://github.com/mukeshsolanki/country-picker-android).
 
-Publishing in StackEdit makes it simple for you to publish online your files. Once you're happy with a file, you can publish it to different hosting platforms like **Blogger**, **Dropbox**, **Gist**, **GitHub**, **Google Drive**, **WordPress** and **Zendesk**. With [Handlebars templates](http://handlebarsjs.com/), you have full control over what you export.
+![Country Picker List](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/settingsdialog-listcountry.PNG)
 
-> Before starting to publish, you must link an account in the **Publish** sub-menu.
-
-## Publish a File
-
-You can publish your file by opening the **Publish** sub-menu and by clicking **Publish to**. For some locations, you can choose between the following formats:
-
-- Markdown: publish the Markdown text on a website that can interpret it (**GitHub** for instance),
-- HTML: publish the file converted to HTML via a Handlebars template (on a blog for example).
-
-## Update a publication
-
-After publishing, StackEdit keeps your file linked to that publication which makes it easy for you to re-publish it. Once you have modified your file and you want to update your publication, click on the **Publish now** button in the navigation bar.
-
-> **Note:** The **Publish now** button is disabled if your file has not been published yet.
-
-## Manage file publication
-
-Since one file can be published to multiple locations, you can list and manage publish locations by clicking **File publication** in the **Publish** sub-menu. This allows you to list and remove publication locations that are linked to your file.
+![Country Picker Search](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/settingsdialog-searchcountry.PNG)
 
 
-# Markdown extensions
+#### Top Input - Errors
+Se permite al usuario filtrar su búsqueda por numero de elementos que quiere visualizar del top, permitiendo únicamente valores numéricos positivos y con un limite de hasta 150. 
 
-StackEdit extends the standard Markdown syntax by adding extra **Markdown extensions**, providing you with some nice features.
+![Input error 1](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/settingsdialog-items-error1.PNG)
 
-> **ProTip:** You can disable any **Markdown extension** in the **File properties** dialog.
+![Input error 2](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/settingsdialog-items-error2.PNG)
 
+#### Top Input - Correct Search
+Se mostraran un ejemplo de modificación que el usuario puede realizar para que se pueda ver el resultado en el fragment respectivo.
 
-## SmartyPants
-
-SmartyPants converts ASCII punctuation characters into "smart" typographic punctuation HTML entities. For example:
-
-|                |ASCII                          |HTML                         |
-|----------------|-------------------------------|-----------------------------|
-|Single backticks|`'Isn't this fun?'`            |'Isn't this fun?'            |
-|Quotes          |`"Isn't this fun?"`            |"Isn't this fun?"            |
-|Dashes          |`-- is en-dash, --- is em-dash`|-- is en-dash, --- is em-dash|
+![Settings Dialog Done](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/settingsdialog-done.PNG)
 
 
-## KaTeX
+### Home After Confirm Search Settings (Fragment Top Artistas)
+Teniendo en cuenta la imagen anterior, los datos serán actualizados en el fragment conforme a lo parametrizado por el usuario. Como se evidencia, el titulo del  Collapsing Toolbar Layout ha sido actualizado al usuario para mejorar su UX. y el RecyclerView recibe la nueva lista de datos para que sea mostrada.
 
-You can render LaTeX mathematical expressions using [KaTeX](https://khan.github.io/KaTeX/):
+![enter image description here](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/home-aftersearch.PNG)
 
-The *Gamma function* satisfying $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$ is via the Euler integral
+#### Final del RecyclerView
+Como se evidencia, se muestran 8 items, que corresponden a la nueva configuración que realizo el usuario.
 
-$$
-\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\,.
-$$
+- País : Mexico
+- Top : 8
 
-> You can find more information about **LaTeX** mathematical expressions [here](http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
+![enter image description here](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/home-aftersearch-bottom.PNG)
 
 
-## UML diagrams
+### Home After Confirm Search Settings (Fragment Top Canciones)
+Como se menciono en **Setting Dialog**, el fragmento se actualizara con los respectivos parametros de configuración solo hasta que este sea llamado, para este caso se atiene la configuración de arriba.
+Como se puede ver, el CardView empleado en el fragment de Top Canciones es diferentes, esto para aprovechar las los datos que son consumidos.
 
-You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/). For example, this will produce a sequence diagram:
+![enter image description here](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/track-searchsettigs-saved.PNG)
 
-```mermaid
-sequenceDiagram
-Alice ->> Bob: Hello Bob, how are you?
-Bob-->>John: How about you John?
-Bob--x Alice: I am good thanks!
-Bob-x John: I am good thanks!
-Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
+![enter image description here](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/track-searchsettigs-saved-scroll.PNG)
 
-Bob-->Alice: Checking with John...
-Alice->John: Yes... John, how are you?
-```
+#### Settings Dialog Open
+Cuando abrimos el settings dialog en este fragmento vemos que se muestra siempre la configuración actual.
 
-And this will produce a flow chart:
+![enter image description here](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/track-searchsettigs.PNG)
 
-```mermaid
-graph LR
-A[Square Rect] -- Link text --> B((Circle))
-A --> C(Round Rect)
-B --> D{Rhombus}
-C --> D
-```
+#### CardView Actions
+Cada CardView es construido por un adaptador que luego es pasado al RecyclerView, esto permite que cada ítem tenga sus respectivos datos. En este caso se agrego un intent implícito para que se pudiera evidenciar la información respectiva, para este caso la web donde se puede encontrar mas información de la canción. 
+
+![enter image description here](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/track-pressbottom-information.png)
+
+![enter image description here](https://github.com/essebas/Last.fm-Application/blob/master/readme-snaps/track-clickbottom-information.PNG)
+
