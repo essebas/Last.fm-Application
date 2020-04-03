@@ -22,6 +22,8 @@ Actualmente la versión cuenta con varias inestabilidades ya que no se tuvo pres
 - Material Design
 
 
+**Por motivos de seguridad la API KEY no fue expuesta en los codigos, esto se manejo por medio del archivo Grandle Properties para evitar su divulgacion. Para hacer que la aplicacion funcione se debe parametrizar el API key en el archivo antes mencionado**
+
 ## Recorrido por la Aplicacion
 
 ### Home - Inicio (Fragment Top Artistas)
